@@ -1,0 +1,25 @@
+---
+- name: Instalar Nginx
+  yum: name=nginx state=latest
+  become: yes
+
+
+- name: Copiar Nginx html template
+  template:
+    src: index.nginx-centos.html.j2
+    dest: "/usr/share/nginx/html/index.nginx-centos.html"
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+
+- name: Añadir una línea con LineInFile al html de Nginx
+  lineinfile: dest=/usr/share/nginx/html/index.nginx-centos.html line="<h2>Línea de LineInFile</h2>" insertafter="Hola calavera"
+  become: yes
+
+- name: Añadir un bloque BlockInFile al html de Nginx
+  blockinfile:
+    dest: "/usr/share/nginx/html/index.nginx-centos.html"
+    marker: "<!-- {mark} Bloque administrado por Ansible en Nginx-->"
+    insertafter: "Hola calavera"
+    block: |
+      <h2>Bloque de de BlockInFile</h2>
+  become: yes

@@ -1,0 +1,18 @@
+---
+
+- hosts: webserver
+  remote_user: "{{ ssh_user }}"
+  become: True
+  serial: "100%"
+  roles:
+    - role: websvr_install
+    - role: websvr_run
+
+- hosts: mongodb
+  remote_user: "{{ ssh_user }}"
+  become: True
+  serial: "100%"
+  roles:
+    - role: mongodb_install
+    - role: mongodb_run
+ 

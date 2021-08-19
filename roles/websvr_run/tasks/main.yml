@@ -1,0 +1,7 @@
+---
+
+- name: Arrancar Nginx
+  service:
+          name: nginx
+          state: started
+  become: yes
